@@ -8,20 +8,21 @@ class Block {
     this.w = 15;
     this.h = 15;
 
-    this.vx = 31;
+    this.vx = 15;
     this.vy = 1;
     this.y0 = this.y;
 
     this.movements = {
       right: false,
       left: false,
-      down: false
+      down: false,
+      keyUp: false
     }
   }
 
   onKeyEvent(event) {
     const enabled = event.type === 'keydown';
-    const a = event.type === 'keyUp'
+    const keyUp = event.type === 'keyup'
     switch (event.keyCode) {
       case KEY_LEFT:
         this.movements.left = enabled;
@@ -31,26 +32,35 @@ class Block {
         break;
       case KEY_DOWN:
         this.movements.down = enabled;
+        if (keyUp) {
+          this.vy = 1;
+        } else {
+          this.vy = 5;
+        }
         break;
     }
   }
 
   move() {
     this.y += this.vy;
-    if (this.movements.right && this.x +16 < (549 - this.w)) {
+
+    if (this.movements.right && this.x + 31 < (WINDOW_RIGHT - this.w)) {
+      console.log(this.x)
       this.x += 15;
-    } else if (this.movements.left && this.x > (234 - this.w)) {
+    } else if (this.movements.left && this.x > (30 - this.w)) {
       this.x -= 15
     } else if (this.movements.down && this.y <= WINDOW_GROUND) {
-      this.vy = 5;
+      this.vy = this.movements.keyUp ? 1 : 5;
     }
-    // if (this.checkLimits()) {
-    //   this.y = WINDOW_GROUND - this.h
-    // }
+    
+    if (this.checkLimits()) {
+      this.y = WINDOW_GROUND - this.h - 16; // Hay que restarle los 16 del cubo de abajo
+    } 
+
   }
 
   checkLimits() {
-    return this.y + this.h > WINDOW_GROUND
+    return this.y + this.h + 16 > WINDOW_GROUND; // Hay que sumarle los 16 del cubo de abajo
   }
 
   draw() {

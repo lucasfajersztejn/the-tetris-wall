@@ -1,0 +1,8 @@
+- desarrollar matriz
+*****- rediseñar canvas para que solo sea el cuadrado del medio
+- movimiento posiciones fijas en la matriz
+- setTimeOut por cada movimiento derecha o izquierda.
+- metodo para rotar.
+
+
+338 x 570

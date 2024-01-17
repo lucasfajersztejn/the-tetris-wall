@@ -6,16 +6,11 @@ class Game {
     this.canvasGame.height = CANVAS_GAME_HEIGHT;
     this.ctx = this.canvasGame.getContext('2d');
 
-    // this.canvasPiece = document.getElementById(canvasIdPiece);
-    // this.canvasPiece.width = CANVAS_PIECE_WIDTH;
-    // this.canvasPiece.height = CANVAS_PIECE_HEIGHT;
-    // this.ctxPiece = this.canvasPiece.getContext("2d");
-
     this.fps = FPS;
     this.drawIntervalId = undefined;
 
     //this.background = new Background(this.ctx);
-    this.block = new Block(this.ctx, 384, 80);
+    this.block = new Block(this.ctx, 169, -50);
 
   }
 
