@@ -9,8 +9,7 @@ class Game {
     this.fps = FPS;
     this.drawIntervalId = undefined;
 
-    //this.background = new Background(this.ctx);
-    this.block = new Block(this.ctx, 169, -50);
+    this.block = new Block(this.ctx, 150, -50);
 
   }
 
@@ -33,13 +32,11 @@ class Game {
   }
 
   draw() {
-    //this.background.draw();
     this.block.draw();
   }
 
   clear() {
     this.ctx.clearRect(0, 0, this.canvasGame.width, this.canvasGame.height);
-    //this.ctxPiece.clearRect(0, 0, this.canvasPiece.width, this.canvasPiece.height);
   }
 
 }
