@@ -23,14 +23,31 @@ class Matrix {
   // 38 filas
   // 22 columnas
   //PREGUNTARLE A CRIS COMO PASARLE UN OBJETO A ESTA FUNCIÓN
-  checkPosition(x, y) {
+  savePosition(x, y) {
     // Busco la posición donde voy a guardar el block en el array
     // La x es row y la y es column
     const position_x = Math.ceil(x / BLOCK_WIDTH);
     const position_y = Math.ceil(y / BLOCK_HEIGHT);
 
-    this.matriz[position_x][position_y].push();
+    // Pasar el objeto x e y
+    this.matriz[position_x][position_y].push(x);
+    this.matriz[position_x][position_y].push(y);
 
   }
 
+  // Método para eliminar la posición antigua
+  deletePosition(position_x, position_y, x, y) {
+    this.matriz.forEach((row) => {
+      for (let i = 0; i < row.length; i++) {
+        const column = row[i];
+        if (column.length){
+          
+        }
+      }
+    });
+
+    this.matriz[position_x][position_y].pop();
+  }
+
+  
 }

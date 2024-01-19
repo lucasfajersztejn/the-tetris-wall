@@ -1,4 +1,4 @@
-class Block {
+class Stick {
 
   constructor(ctx, x, y) {
     this.ctx = ctx;
@@ -18,8 +18,7 @@ class Block {
       down: false,
       heavy_fall: false,
       keyUp: false,
-      keyLock: false,
-      crash: false,
+      keyLock: false
     }
 
     this.position = {
@@ -31,15 +30,6 @@ class Block {
   // Devuelve la x y la y para que la matriz pueda actualizar la posición
   position() {
     return this.position;
-  }
-
-  collidesWith(element) {
-    return (
-      this.x + this.w > element.x && // Mi cuadrado esta sobre el otro cuadrado
-      this.x < element.x + element.w && // Mi cuadrado esta a la derecha del otro cuadrado
-      this.y + this.h > element.y && // Mi cuadrado esta abajo del otro cuadrado
-      this.y < element.y + element.h // Mi cuadrado esta a la izquierda del otro cuadrado
-    );
   }
 
   onKeyEvent(event) {
@@ -68,12 +58,12 @@ class Block {
   }
 
   move() {
-    if (!this.movements.keyLock) {
-      this.y += this.vy;
-    
+    this.y += this.vy;
+
     // Si la pieza no tocó el suelo muevete a la derecha, izquierda, etc
     // Si toco el suelo dejo que se mueva 2 segundos y luego no la dejo moverse más
     // Pero si baja con la barra espaciadora ya no puede moverse.
+    if (!this.checkLimits() || !this.movements.keyLock) {
       if (this.movements.right && this.x + 15 < (WINDOW_RIGHT - this.w)) {
         this.x += SPEED_HORIZONTAL;
       } else if (this.movements.left && this.x > (15 - this.w)) {
@@ -82,34 +72,31 @@ class Block {
         this.vy = this.movements.keyUp ? 1 : 5;
       } else if (this.movements.heavy_fall) {
         this.vy = SPEED_FAST;
+        this.movements.keyLock = true;
       }
     }
-
+    
     if (this.checkLimits()) {
-        // Hay que restarle los 15 del cubo de abajo + 1 del espacio
-        this.y = WINDOW_GROUND - this.h; // - 16;  
-          
-        setTimeout(() => {
-          this.movements.keyLock = true;
-        }, 2000);
+      // Hay que restarle los 15 del cubo de abajo + 1 del espacio
+      this.y = WINDOW_GROUND - this.h - 48; 
+      
+      setTimeout(() => {
+        this.movements.keyLock = true;
+      }, 2000);
     } 
   }
 
   checkLimits() {
     // Hay que sumarle los 15 del cubo de abajo +1 del espacio
-    return this.y + this.h > WINDOW_GROUND; 
+    return this.y + this.h + 48 > WINDOW_GROUND; 
   }
 
   draw() {
     this.ctx.fillStyle = "white";
     this.ctx.fillRect(this.x, this.y, this.w, this.h);
-    // this.ctx.fillRect(this.x + 16, this.y, this.w, this.h);
-    // this.ctx.fillRect(this.x, this.y + 16, this.w, this.h);
-    // this.ctx.fillRect(this.x + 16, this.y + 16, this.w, this.h);
-
-    this.ctx.strokeStyle = "black"; // Establece el color del borde
-    this.ctx.lineWidth = 2; // Establece el ancho del borde
-    this.ctx.strokeRect(this.x + this.ctx.lineWidth, this.y + this.ctx.lineWidth, this.w - 2 * this.ctx.lineWidth, this.h - 2 * this.ctx.lineWidth);
+    this.ctx.fillRect(this.x, this.y + 16, this.w, this.h);
+    this.ctx.fillRect(this.x, this.y + 32, this.w, this.h);
+    this.ctx.fillRect(this.x, this.y + 48, this.w, this.h);
   }
 }
 
